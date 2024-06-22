@@ -77,7 +77,8 @@ void AMazeGenerator::GenerateMaze()
 	Maze.Init();
 	Maze.Open(StartX, StartY);
 
-	switch (Algorithm) {
+	switch (Algorithm)
+	{
 	case EMazeGenerationAlgorithmType::WithStack:
 		GenerateMazeWithStack();
 		break;
@@ -85,7 +86,6 @@ void AMazeGenerator::GenerateMaze()
 		GenerateMazeWithRecursion(StartX, StartY);
 		break;
 	}
-
 }
 
 void AMazeGenerator::GenerateMazeWithStack()
@@ -107,9 +107,7 @@ void AMazeGenerator::GenerateMazeWithStack()
 			int32 NextY = CurrentY + Directions[i].Value * 2;
 
 			if (!Maze.IsValid(NextX, NextY))
-			{
 				continue;
-			}
 
 			if (!Maze.IsOpen(NextX, NextY))
 			{
@@ -127,7 +125,7 @@ void AMazeGenerator::GenerateMazeWithRecursion(const int32& X, const int32& Y)
 
 	for (int32 i = 0; i < Directions.Num(); i++)
 	{
-		if (Directions[i] == TTuple<int32, int32>{1,0}) // Up
+		if (Directions[i] == TTuple<int32, int32>{1, 0}) // Up
 		{
 			if (X + 2 >= Width - 1 || Maze.IsOpen(X + 2, Y))
 				continue;
@@ -136,7 +134,7 @@ void AMazeGenerator::GenerateMazeWithRecursion(const int32& X, const int32& Y)
 			Maze.Open(X + 1, Y);
 			GenerateMazeWithRecursion(X + 2, Y);
 		}
-		else if (Directions[i] == TTuple<int32, int32>{0,-1}) // Right
+		else if (Directions[i] == TTuple<int32, int32>{0, -1}) // Right
 		{
 			if (Y + 2 >= Height - 1 || Maze.IsOpen(X, Y + 2))
 				continue;
@@ -145,7 +143,7 @@ void AMazeGenerator::GenerateMazeWithRecursion(const int32& X, const int32& Y)
 			Maze.Open(X, Y + 1);
 			GenerateMazeWithRecursion(X, Y + 2);
 		}
-		else if (Directions[i] == TTuple<int32, int32>{-1,0}) // Down
+		else if (Directions[i] == TTuple<int32, int32>{-1, 0}) // Down
 		{
 			if (X - 2 <= 0 || Maze.IsOpen(X - 2, Y))
 				continue;
@@ -154,7 +152,7 @@ void AMazeGenerator::GenerateMazeWithRecursion(const int32& X, const int32& Y)
 			Maze.Open(X - 1, Y);
 			GenerateMazeWithRecursion(X - 2, Y);
 		}
-		else if (Directions[i] == TTuple<int32, int32>{0,1}) // Left
+		else if (Directions[i] == TTuple<int32, int32>{0, 1}) // Left
 		{
 			if (Y - 2 <= 0 || Maze.IsOpen(X, Y - 2))
 				continue;

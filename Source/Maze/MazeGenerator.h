@@ -31,6 +31,7 @@ protected:
 		bool IsValid(const int32& X, const int32& Y) const;
 		void Open(const int32& X, const int32& Y);
 		bool IsOpen(const int32& X, const int32& Y) const;
+
 	private:
 		void Set(const int32& X, const int32& Y, const int8& Value);
 		AMazeGenerator& MazeGen;
@@ -45,6 +46,7 @@ protected:
 		void Shuffle();
 		TTuple<int32, int32> operator[](const size_t& Index);
 		int32 Num() const;
+
 	private:
 		TArray<TTuple<int32, int32>> Data = {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
 	};
