@@ -7,7 +7,8 @@
 UENUM(BlueprintType)
 enum class EMazeGenerationAlgorithmType : uint8
 {
-	WithStack,
+	WithStackShuffleDirectionsExploreOneByOne,
+	WithStackExploreRandomDirection,
 	WithRecursion
 };
 
@@ -54,7 +55,8 @@ protected:
 	FWorldDirections Directions;
 
 	void GenerateMaze();
-	void GenerateMazeWithStack();
+	void GenerateMazeWithStackShuffleDirections();
+	void GenerateMazeWithStackRandomDirections();
 	void GenerateMazeWithRecursion(const int32& X, const int32& Y);
 
 	void PlacePieces() const;

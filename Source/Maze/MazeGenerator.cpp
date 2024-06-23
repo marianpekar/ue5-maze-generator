@@ -79,8 +79,11 @@ void AMazeGenerator::GenerateMaze()
 
 	switch (Algorithm)
 	{
-	case EMazeGenerationAlgorithmType::WithStack:
-		GenerateMazeWithStack();
+	case EMazeGenerationAlgorithmType::WithStackShuffleDirectionsExploreOneByOne:
+		GenerateMazeWithStackShuffleDirections();
+		break;
+	case EMazeGenerationAlgorithmType::WithStackExploreRandomDirection:
+		GenerateMazeWithStackRandomDirections();
 		break;
 	case EMazeGenerationAlgorithmType::WithRecursion:
 		GenerateMazeWithRecursion(StartX, StartY);
@@ -88,7 +91,7 @@ void AMazeGenerator::GenerateMaze()
 	}
 }
 
-void AMazeGenerator::GenerateMazeWithStack()
+void AMazeGenerator::GenerateMazeWithStackShuffleDirections()
 {
 	TArray<TTuple<int32, int32>> Stack;
 	Stack.Push({StartX, StartY});
@@ -105,6 +108,37 @@ void AMazeGenerator::GenerateMazeWithStack()
 		{
 			int32 NextX = CurrentX + Directions[i].Key * 2;
 			int32 NextY = CurrentY + Directions[i].Value * 2;
+
+			if (!Maze.IsValid(NextX, NextY))
+				continue;
+
+			if (!Maze.IsOpen(NextX, NextY))
+			{
+				Maze.Open((NextX + CurrentX) / 2, (NextY + CurrentY) / 2);
+				Maze.Open(NextX, NextY);
+				Stack.Push({NextX, NextY});
+			}
+		}
+	}
+}
+
+void AMazeGenerator::GenerateMazeWithStackRandomDirections()
+{
+	TArray<TTuple<int32, int32>> Stack;
+	Stack.Push({StartX, StartY});
+
+	while (!Stack.IsEmpty())
+	{
+		const int32 CurrentX = Stack.Top().Key;
+		const int32 CurrentY = Stack.Top().Value;
+		Stack.Pop();
+
+		for (size_t i = 0; i < 4; ++i)
+		{
+			const int32 Index = FMath::RandRange(0, 3);
+
+			int32 NextX = CurrentX + Directions[Index].Key * 2;
+			int32 NextY = CurrentY + Directions[Index].Value * 2;
 
 			if (!Maze.IsValid(NextX, NextY))
 				continue;
