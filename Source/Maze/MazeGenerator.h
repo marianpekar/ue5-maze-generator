@@ -29,12 +29,13 @@ protected:
 		FMazeData(AMazeGenerator& MazeGen);
 		void Init();
 		int8 Get(const int32& X, const int32& Y) const;
+		void Set(const int32& X, const int32& Y, const int8& Value);
 		bool IsValid(const int32& X, const int32& Y) const;
 		void Open(const int32& X, const int32& Y);
 		bool IsOpen(const int32& X, const int32& Y) const;
+		bool IsClosed(const int32& X, const int32& Y) const;
 
 	private:
-		void Set(const int32& X, const int32& Y, const int8& Value);
 		AMazeGenerator& MazeGen;
 		TArray<int8> Data;
 	};
@@ -59,11 +60,15 @@ protected:
 	void GenerateMazeWithStackRandomDirections();
 	void GenerateMazeWithRecursion(const int32& X, const int32& Y);
 
+	void RemoveDeadEndsInside();
+	void RemoveDeadEndsOnEdges();
+	void RemoveDeadEndsAtCorners();
+
 	void PlacePieces() const;
 	void PlacePiece(const int32& X, const int32& Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const;
 	bool IsPatternMatching(const int32& X, const int32& Y, const TArray<int8>& Pattern) const;
 
-	// Straight
+	// Straights
 	TArray<int8> HorizontalStraightPattern = {
 		5, 1, 5,
 		0, 0, 0,
@@ -161,6 +166,9 @@ protected:
 public:
 	UPROPERTY(EditAnywhere)
 	EMazeGenerationAlgorithmType Algorithm = EMazeGenerationAlgorithmType::WithRecursion;
+
+	UPROPERTY(EditAnywhere)
+	bool NoDeadEnds;
 
 	UPROPERTY(EditAnywhere)
 	int32 StartX = 5;
