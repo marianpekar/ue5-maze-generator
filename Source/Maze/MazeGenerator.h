@@ -62,6 +62,8 @@ protected:
 
 	void RemoveDeadEndsInside();
 	void RemoveDeadEndsOnEdges();
+	void RemoveDeadEndsOnVerticalEdges(const int32& Y);
+	void RemoveDeadEndsOnHorizontalEdges(const int32& X);
 	void RemoveDeadEndsAtCorners();
 
 	void PlacePieces() const;
@@ -177,10 +179,10 @@ public:
 	int32 StartY = 5;
 
 	UPROPERTY(EditAnywhere)
-	int32 Width = 100;
+	int32 Width = 50;
 
 	UPROPERTY(EditAnywhere)
-	int32 Height = 50;
+	int32 Height = 100;
 
 	UPROPERTY(EditAnywhere)
 	int32 Scale = 300;
