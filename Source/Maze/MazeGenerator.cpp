@@ -10,32 +10,32 @@ void AMazeGenerator::FMazeData::Init()
 	Data.Init(1, MazeGen.Width * MazeGen.Height);
 }
 
-int8 AMazeGenerator::FMazeData::Get(const int32& X, const int32& Y) const
+int32 AMazeGenerator::FMazeData::Get(const int32 X, const int32 Y) const
 {
 	return Data[X + Y * MazeGen.Width];
 }
 
-void AMazeGenerator::FMazeData::Set(const int32& X, const int32& Y, const int8& Value)
+void AMazeGenerator::FMazeData::Set(const int32 X, const int32 Y, const int32 Value)
 {
 	Data[X + Y * MazeGen.Width] = Value;
 }
 
-void AMazeGenerator::FMazeData::Open(const int32& X, const int32& Y)
+void AMazeGenerator::FMazeData::Open(const int32 X, const int32 Y)
 {
 	Set(X, Y, 0);
 }
 
-bool AMazeGenerator::FMazeData::IsOpen(const int32& X, const int32& Y) const
+bool AMazeGenerator::FMazeData::IsOpen(const int32 X, const int32 Y) const
 {
 	return Data[X + Y * MazeGen.Width] == 0;
 }
 
-bool AMazeGenerator::FMazeData::IsClosed(const int32& X, const int32& Y) const
+bool AMazeGenerator::FMazeData::IsClosed(const int32 X, const int32 Y) const
 {
 	return Data[X + Y * MazeGen.Width] == 1;
 }
 
-bool AMazeGenerator::FMazeData::IsValid(const int32& X, const int32& Y) const
+bool AMazeGenerator::FMazeData::IsValid(const int32 X, const int32 Y) const
 {
 	return X >= 0 && X < MazeGen.Width - 1 && Y >= 0 && Y < MazeGen.Height - 1;
 }
@@ -165,7 +165,7 @@ void AMazeGenerator::GenerateMazeWithStackRandomDirections()
 	}
 }
 
-void AMazeGenerator::GenerateMazeWithRecursion(const int32& X, const int32& Y)
+void AMazeGenerator::GenerateMazeWithRecursion(const int32 X, const int32 Y)
 {
 	Directions.Shuffle();
 
@@ -273,12 +273,12 @@ void AMazeGenerator::RemoveDeadEndsOnEdges()
 	RemoveDeadEndsOnHorizontalEdges(Width - 3);
 }
 
-void AMazeGenerator::RemoveDeadEndsOnVerticalEdges(const int32& Y)
+void AMazeGenerator::RemoveDeadEndsOnVerticalEdges(const int32 Y)
 {
 	for (int32 x = 2; x < Width - 2; x++)
 	{
 		int32 NextX = x;
-		int32 NextY = Y;
+		const int32 NextY = Y;
 		if (IsPatternMatching(x, NextY, DeadEndUpPattern))
 		{
 			NextX--;
@@ -318,11 +318,11 @@ void AMazeGenerator::RemoveDeadEndsOnVerticalEdges(const int32& Y)
 	}
 }
 
-void AMazeGenerator::RemoveDeadEndsOnHorizontalEdges(const int32& X)
+void AMazeGenerator::RemoveDeadEndsOnHorizontalEdges(const int32 X)
 {
 	for (int32 y = 2; y < Height - 2; y++)
 	{
-		int32 NextX = X;
+		const int32 NextX = X;
 		int32 NextY = y;
 		if (IsPatternMatching(NextX, y, DeadEndUpPattern))
 		{
@@ -406,7 +406,7 @@ void AMazeGenerator::PlacePieces() const
 // Example pattern: [ 1 0 1
 //                    0 0 0
 //                    1 0 1 ] is a crossroad.
-bool AMazeGenerator::IsPatternMatching(const int32& X, const int32& Y, const TArray<int8>& Pattern) const
+bool AMazeGenerator::IsPatternMatching(const int32 X, const int32 Y, const TArray<int32>& Pattern) const
 {
 	int Count = 0;
 	int i = 0;
@@ -426,7 +426,7 @@ bool AMazeGenerator::IsPatternMatching(const int32& X, const int32& Y, const TAr
 	return Count == 9;
 }
 
-void AMazeGenerator::PlacePiece(const int32& X, const int32& Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const
+void AMazeGenerator::PlacePiece(const int32 X, const int32 Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const
 {
 	const FVector Location(X * Scale, Y * Scale, 0);
 	const FRotator Rotation(0, Yaw, 0);

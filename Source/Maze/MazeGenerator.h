@@ -28,16 +28,16 @@ protected:
 	public:
 		FMazeData(AMazeGenerator& MazeGen);
 		void Init();
-		int8 Get(const int32& X, const int32& Y) const;
-		void Set(const int32& X, const int32& Y, const int8& Value);
-		bool IsValid(const int32& X, const int32& Y) const;
-		void Open(const int32& X, const int32& Y);
-		bool IsOpen(const int32& X, const int32& Y) const;
-		bool IsClosed(const int32& X, const int32& Y) const;
+		int32 Get(const int32 X, const int32 Y) const;
+		void Set(const int32 X, const int32 Y, const int32 Value);
+		bool IsValid(const int32 X, const int32 Y) const;
+		void Open(const int32 X, const int32 Y);
+		bool IsOpen(const int32 X, const int32 Y) const;
+		bool IsClosed(const int32 X, const int32 Y) const;
 
 	private:
 		AMazeGenerator& MazeGen;
-		TArray<int8> Data;
+		TArray<int32> Data;
 	};
 
 	FMazeData Maze = FMazeData(*this);
@@ -58,108 +58,108 @@ protected:
 	void GenerateMaze();
 	void GenerateMazeWithStackShuffleDirections();
 	void GenerateMazeWithStackRandomDirections();
-	void GenerateMazeWithRecursion(const int32& X, const int32& Y);
+	void GenerateMazeWithRecursion(const int32 X, const int32 Y);
 
 	void RemoveDeadEndsInside();
 	void RemoveDeadEndsOnEdges();
-	void RemoveDeadEndsOnVerticalEdges(const int32& Y);
-	void RemoveDeadEndsOnHorizontalEdges(const int32& X);
+	void RemoveDeadEndsOnVerticalEdges(const int32 Y);
+	void RemoveDeadEndsOnHorizontalEdges(const int32 X);
 	void RemoveDeadEndsAtCorners();
 
 	void PlacePieces() const;
-	void PlacePiece(const int32& X, const int32& Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const;
-	bool IsPatternMatching(const int32& X, const int32& Y, const TArray<int8>& Pattern) const;
+	void PlacePiece(const int32 X, const int32 Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const;
+	bool IsPatternMatching(const int32 X, const int32 Y, const TArray<int32>& Pattern) const;
 
 	// Straights
-	TArray<int8> HorizontalStraightPattern = {
+	TArray<int32> HorizontalStraightPattern = {
 		5, 1, 5,
 		0, 0, 0,
 		5, 1, 5
 	};
 
-	TArray<int8> VerticalStraightPattern = {
+	TArray<int32> VerticalStraightPattern = {
 		5, 0, 5,
 		1, 0, 1,
 		5, 0, 5
 	};
 
 	// T Junctions
-	TArray<int8> TJunctionUpPattern = {
+	TArray<int32> TJunctionUpPattern = {
 		1, 0, 1,
 		0, 0, 0,
 		5, 1, 5
 	};
 
-	TArray<int8> TJunctionDownPattern = {
+	TArray<int32> TJunctionDownPattern = {
 		5, 1, 5,
 		0, 0, 0,
 		1, 0, 1
 	};
 
-	TArray<int8> TJunctionLeftPattern = {
+	TArray<int32> TJunctionLeftPattern = {
 		1, 0, 5,
 		0, 0, 1,
 		1, 0, 5
 	};
 
-	TArray<int8> TJunctionRightPattern = {
+	TArray<int32> TJunctionRightPattern = {
 		5, 0, 1,
 		1, 0, 0,
 		5, 0, 1
 	};
 
 	// Crossroad
-	TArray<int8> CrossroadPattern = {
+	TArray<int32> CrossroadPattern = {
 		1, 0, 1,
 		0, 0, 0,
 		1, 0, 1
 	};
 
 	// Turns
-	TArray<int8> TurnLeftUpPattern = {
+	TArray<int32> TurnLeftUpPattern = {
 		1, 0, 5,
 		0, 0, 1,
 		5, 1, 5
 	};
 
-	TArray<int8> TurnLeftDownPattern = {
+	TArray<int32> TurnLeftDownPattern = {
 		5, 1, 5,
 		0, 0, 1,
 		1, 0, 5
 	};
 
-	TArray<int8> TurnRightUpPattern = {
+	TArray<int32> TurnRightUpPattern = {
 		5, 0, 1,
 		1, 0, 0,
 		5, 1, 5
 	};
 
-	TArray<int8> TurnRightDownPattern = {
+	TArray<int32> TurnRightDownPattern = {
 		5, 1, 5,
 		1, 0, 0,
 		5, 0, 1
 	};
 
 	// Dead ends
-	TArray<int8> DeadEndUpPattern = {
+	TArray<int32> DeadEndUpPattern = {
 		5, 0, 5,
 		1, 0, 1,
 		5, 1, 5
 	};
 
-	TArray<int8> DeadEndDownPattern = {
+	TArray<int32> DeadEndDownPattern = {
 		5, 1, 5,
 		1, 0, 1,
 		5, 0, 5
 	};
 
-	TArray<int8> DeadEndLeftPattern = {
+	TArray<int32> DeadEndLeftPattern = {
 		5, 1, 5,
 		0, 0, 1,
 		5, 1, 5
 	};
 
-	TArray<int8> DeadEndRightPattern = {
+	TArray<int32> DeadEndRightPattern = {
 		5, 1, 5,
 		1, 0, 0,
 		5, 1, 5
@@ -170,7 +170,7 @@ public:
 	EMazeGenerationAlgorithmType Algorithm = EMazeGenerationAlgorithmType::WithRecursion;
 
 	UPROPERTY(EditAnywhere)
-	bool NoDeadEnds;
+	bool NoDeadEnds = false;
 
 	UPROPERTY(EditAnywhere)
 	int32 StartX = 5;
