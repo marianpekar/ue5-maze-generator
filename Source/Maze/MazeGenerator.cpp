@@ -241,43 +241,42 @@ void AMazeGenerator::RemoveDeadEndsOnEdges()
 
 void AMazeGenerator::RemoveDeadEndsOnVerticalEdges(const int32 Y)
 {
-	for (int32 x = 2; x < Width - 2; x++)
+	for (int32 x = 2; x < Width - 3; x++)
 	{
 		int32 NextX = x;
-		const int32 NextY = Y;
-		if (IsPatternMatching(x, NextY, DeadEndUpPattern))
+		if (IsPatternMatching(x, Y, DeadEndUpPattern))
 		{
 			NextX--;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(NextX, Y) && Maze.IsClosed(NextX, Y))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(NextX, Y);
 				NextX--;
 			}
 		}
-		else if (IsPatternMatching(x, NextY, DeadEndDownPattern))
+		else if (IsPatternMatching(x, Y, DeadEndDownPattern))
 		{
 			NextX++;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(NextX, Y) && Maze.IsClosed(NextX, Y))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(NextX, Y);
 				NextX++;
 			}
 		}
-		else if (IsPatternMatching(x, NextY, DeadEndLeftPattern))
+		else if (IsPatternMatching(x, Y, DeadEndLeftPattern))
 		{
 			NextX++;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(NextX, Y) && Maze.IsClosed(NextX, Y))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(NextX, Y);
 				NextX++;
 			}
 		}
-		else if (IsPatternMatching(x, NextY, DeadEndRightPattern))
+		else if (IsPatternMatching(x, Y, DeadEndRightPattern))
 		{
 			NextX--;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(NextX, Y) && Maze.IsClosed(NextX, Y))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(NextX, Y);
 				NextX--;
 			}
 		}
@@ -286,43 +285,42 @@ void AMazeGenerator::RemoveDeadEndsOnVerticalEdges(const int32 Y)
 
 void AMazeGenerator::RemoveDeadEndsOnHorizontalEdges(const int32 X)
 {
-	for (int32 y = 2; y < Height - 2; y++)
+	for (int32 y = 2; y < Height - 3; y++)
 	{
-		const int32 NextX = X;
 		int32 NextY = y;
-		if (IsPatternMatching(NextX, y, DeadEndUpPattern))
+		if (IsPatternMatching(X, y, DeadEndUpPattern))
 		{
 			NextY--;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(X, NextY) && Maze.IsClosed(X, NextY))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(X, NextY);
 				NextY--;
 			}
 		}
-		else if (IsPatternMatching(NextX, y, DeadEndDownPattern))
+		else if (IsPatternMatching(X, y, DeadEndDownPattern))
 		{
 			NextY++;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(X, NextY) && Maze.IsClosed(X, NextY))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(X, NextY);
 				NextY++;
 			}
 		}
-		else if (IsPatternMatching(NextX, y, DeadEndLeftPattern))
+		else if (IsPatternMatching(X, y, DeadEndLeftPattern))
 		{
 			NextY++;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(X, NextY) && Maze.IsClosed(X, NextY))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(X, NextY);
 				NextY++;
 			}
 		}
-		else if (IsPatternMatching(NextX, y, DeadEndRightPattern))
+		else if (IsPatternMatching(X, y, DeadEndRightPattern))
 		{
 			NextY--;
-			while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+			while (Maze.IsValid(X, NextY) && Maze.IsClosed(X, NextY))
 			{
-				Maze.Open(NextX, NextY);
+				Maze.Open(X, NextY);
 				NextY--;
 			}
 		}
@@ -331,7 +329,106 @@ void AMazeGenerator::RemoveDeadEndsOnHorizontalEdges(const int32 X)
 
 void AMazeGenerator::RemoveDeadEndsAtCorners()
 {
-	// TODO
+	RemoveDeadEndAtBottomLeft();
+	RemoveDeadEndAtTopLeft();
+	RemoveDeadEndAtBottomRight();
+	RemoveDeadAtTopRight();
+}
+
+void AMazeGenerator::RemoveDeadEndAtBottomLeft()
+{
+	int32 NextX = 1;
+	int32 NextY = 1;
+	if (IsPatternMatching(1, 1, DeadEndUpPattern))
+	{
+		NextX++;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextX++;
+		}
+	}
+	else if (IsPatternMatching(1, 1, DeadEndRightPattern))
+	{
+		NextY++;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextY++;
+		}
+	}
+}
+
+void AMazeGenerator::RemoveDeadEndAtTopLeft()
+{
+	int32 NextX = Width - 3;
+	int32 NextY = 1;
+	if (IsPatternMatching(Width - 3, 1, DeadEndLeftPattern))
+	{
+		NextY++;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextY++;
+		}
+	}
+	else if (IsPatternMatching(Width - 3, 1, DeadEndUpPattern))
+	{
+		NextX--;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextX--;
+		}
+	}
+}
+
+void AMazeGenerator::RemoveDeadEndAtBottomRight()
+{
+	int32 NextX = 1;
+	int32 NextY = Height - 3;
+	if (IsPatternMatching(1, Height - 3, DeadEndDownPattern))
+	{
+		NextX++;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextX++;
+		}
+	}
+	else if (IsPatternMatching(1, Height - 3, DeadEndRightPattern))
+	{
+		NextY--;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextY--;
+		}
+	}
+}
+
+void AMazeGenerator::RemoveDeadAtTopRight()
+{
+	int32 NextX = Width - 3;
+	int32 NextY = Height - 3;
+	if (IsPatternMatching(Width - 3, Height - 3, DeadEndLeftPattern))
+	{
+		NextY--;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextY--;
+		}
+	}
+	else if (IsPatternMatching(Width - 3, Height - 3, DeadEndDownPattern))
+	{
+		NextX--;
+		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
+		{
+			Maze.Open(NextX, NextY);
+			NextX--;
+		}
+	}
 }
 
 void AMazeGenerator::PlacePieces() const

@@ -63,6 +63,10 @@ protected:
 	void RemoveDeadEndsOnVerticalEdges(const int32 Y);
 	void RemoveDeadEndsOnHorizontalEdges(const int32 X);
 	void RemoveDeadEndsAtCorners();
+	void RemoveDeadEndAtBottomLeft();
+	void RemoveDeadEndAtTopLeft();
+	void RemoveDeadEndAtBottomRight();
+	void RemoveDeadAtTopRight();
 
 	void PlacePieces() const;
 	void PlacePiece(const int32 X, const int32 Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const;
