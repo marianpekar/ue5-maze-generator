@@ -491,7 +491,8 @@ bool AMazeGenerator::IsPatternMatching(const int32 X, const int32 Y, const TArra
 
 void AMazeGenerator::PlacePiece(const int32 X, const int32 Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const
 {
-	const FVector Location(X * Scale, Y * Scale, 0);
+	const FVector GeneratorLocation = GetActorLocation();
+	const FVector Location(GeneratorLocation.X + X * Scale, GeneratorLocation.Y + Y * Scale, GeneratorLocation.Z);
 	const FRotator Rotation(0, Yaw, 0);
 	const FActorSpawnParameters SpawnInfo;
 
