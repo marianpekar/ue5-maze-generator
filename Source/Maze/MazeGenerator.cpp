@@ -79,6 +79,7 @@ void AMazeGenerator::BeginPlay()
 
 void AMazeGenerator::GenerateMaze()
 {
+	EnsureEvenDimensions();
 	Maze.Init();
 	Maze.Open(StartX, StartY);
 
@@ -98,6 +99,12 @@ void AMazeGenerator::GenerateMaze()
 		RemoveDeadEndsOnEdges();
 		RemoveDeadEndsAtCorners();
 	}
+}
+
+void AMazeGenerator::EnsureEvenDimensions()
+{
+	if (Width % 2 != 0) { Width++; }
+	if (Height % 2 != 0) { Height++; }
 }
 
 void AMazeGenerator::GenerateMazeWithStack()

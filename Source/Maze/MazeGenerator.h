@@ -54,6 +54,8 @@ protected:
 
 	FWorldDirections Directions;
 
+	void EnsureEvenDimensions();
+	
 	void GenerateMaze();
 	void GenerateMazeWithStack();
 	void GenerateMazeWithRecursion(const int32 X, const int32 Y);
