@@ -54,8 +54,6 @@ protected:
 
 	FWorldDirections Directions;
 
-	void EnsureEvenDimensions();
-	
 	void GenerateMaze();
 	void GenerateMazeWithStack();
 	void GenerateMazeWithRecursion(const int32 X, const int32 Y);
@@ -73,6 +71,9 @@ protected:
 	void PlacePieces() const;
 	void PlacePiece(const int32 X, const int32 Y, const float& Yaw, const TSubclassOf<AActor>& Piece) const;
 	bool IsPatternMatching(const int32 X, const int32 Y, const TArray<int32>& Pattern) const;
+
+	bool IsWidthEvenNumber = false;
+	bool IsHeightEvenNumber = false;
 
 	// Straights
 	TArray<int32> HorizontalStraightPattern = {

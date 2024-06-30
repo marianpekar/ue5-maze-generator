@@ -79,7 +79,9 @@ void AMazeGenerator::BeginPlay()
 
 void AMazeGenerator::GenerateMaze()
 {
-	EnsureEvenDimensions();
+	IsWidthEvenNumber = Width % 2 == 0;
+	IsHeightEvenNumber = Height % 2 == 0;
+
 	Maze.Init();
 	Maze.Open(StartX, StartY);
 
@@ -103,12 +105,6 @@ void AMazeGenerator::GenerateMaze()
 		RemoveDeadEndsOnEdges();
 		RemoveDeadEndsAtCorners();
 	}
-}
-
-void AMazeGenerator::EnsureEvenDimensions()
-{
-	if (Width % 2 != 0) { Width++; }
-	if (Height % 2 != 0) { Height++; }
 }
 
 void AMazeGenerator::GenerateMazeWithStack()
@@ -189,9 +185,9 @@ void AMazeGenerator::GenerateMazeWithRecursion(const int32 X, const int32 Y)
 
 void AMazeGenerator::RemoveDeadEndsInside()
 {
-	for (int32 x = 2; x < Width - 3; x++)
+	for (int32 x = 2; x < Width - (IsWidthEvenNumber ? 3 : 2); x++)
 	{
-		for (int32 y = 2; y < Height - 3; y++)
+		for (int32 y = 2; y < Height - (IsHeightEvenNumber ? 3 : 2); y++)
 		{
 			int NextX = x;
 			int NextY = y;
@@ -244,10 +240,10 @@ void AMazeGenerator::RemoveDeadEndsOnEdges()
 	RemoveDeadEndsOnHorizontalEdges(1);
 
 	// Right Edge
-	RemoveDeadEndsOnVerticalEdges(Height - 3);
+	RemoveDeadEndsOnVerticalEdges(Height - (IsHeightEvenNumber ? 3 : 2));
 
 	// Top Edge
-	RemoveDeadEndsOnHorizontalEdges(Width - 3);
+	RemoveDeadEndsOnHorizontalEdges(Width - (IsWidthEvenNumber ? 3 : 2));
 }
 
 void AMazeGenerator::RemoveDeadEndsOnVerticalEdges(const int32 Y)
@@ -296,7 +292,7 @@ void AMazeGenerator::RemoveDeadEndsOnVerticalEdges(const int32 Y)
 
 void AMazeGenerator::RemoveDeadEndsOnHorizontalEdges(const int32 X)
 {
-	for (int32 y = 2; y < Height - 3; y++)
+	for (int32 y = 2; y < Height - (IsHeightEvenNumber ? 3 : 2); y++)
 	{
 		int32 NextY = y;
 		if (IsPatternMatching(X, y, DeadEndUpPattern))
@@ -372,9 +368,9 @@ void AMazeGenerator::RemoveDeadEndAtBottomLeft()
 
 void AMazeGenerator::RemoveDeadEndAtTopLeft()
 {
-	int32 NextX = Width - 3;
+	int32 NextX = Width - (IsWidthEvenNumber ? 3 : 2);
 	int32 NextY = 1;
-	if (IsPatternMatching(Width - 3, 1, DeadEndLeftPattern))
+	if (IsPatternMatching(Width - (IsWidthEvenNumber ? 3 : 2), 1, DeadEndLeftPattern))
 	{
 		NextY++;
 		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
@@ -383,7 +379,7 @@ void AMazeGenerator::RemoveDeadEndAtTopLeft()
 			NextY++;
 		}
 	}
-	else if (IsPatternMatching(Width - 3, 1, DeadEndUpPattern))
+	else if (IsPatternMatching(Width - (IsWidthEvenNumber ? 3 : 2), 1, DeadEndUpPattern))
 	{
 		NextX--;
 		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
@@ -397,8 +393,8 @@ void AMazeGenerator::RemoveDeadEndAtTopLeft()
 void AMazeGenerator::RemoveDeadEndAtBottomRight()
 {
 	int32 NextX = 1;
-	int32 NextY = Height - 3;
-	if (IsPatternMatching(1, Height - 3, DeadEndDownPattern))
+	int32 NextY = Height - (IsHeightEvenNumber ? 3 : 2);
+	if (IsPatternMatching(1, Height - (IsHeightEvenNumber ? 3 : 2), DeadEndDownPattern))
 	{
 		NextX++;
 		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
@@ -407,7 +403,7 @@ void AMazeGenerator::RemoveDeadEndAtBottomRight()
 			NextX++;
 		}
 	}
-	else if (IsPatternMatching(1, Height - 3, DeadEndRightPattern))
+	else if (IsPatternMatching(1, Height - (IsHeightEvenNumber ? 3 : 2), DeadEndRightPattern))
 	{
 		NextY--;
 		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
@@ -420,9 +416,9 @@ void AMazeGenerator::RemoveDeadEndAtBottomRight()
 
 void AMazeGenerator::RemoveDeadAtTopRight()
 {
-	int32 NextX = Width - 3;
-	int32 NextY = Height - 3;
-	if (IsPatternMatching(Width - 3, Height - 3, DeadEndLeftPattern))
+	int32 NextX = Width - (IsWidthEvenNumber ? 3 : 2);
+	int32 NextY = Height - (IsHeightEvenNumber ? 3 : 2);
+	if (IsPatternMatching(Width - (IsWidthEvenNumber ? 3 : 2), Height - (IsHeightEvenNumber ? 3 : 2), DeadEndLeftPattern))
 	{
 		NextY--;
 		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
@@ -431,7 +427,7 @@ void AMazeGenerator::RemoveDeadAtTopRight()
 			NextY--;
 		}
 	}
-	else if (IsPatternMatching(Width - 3, Height - 3, DeadEndDownPattern))
+	else if (IsPatternMatching(Width - (IsWidthEvenNumber ? 3 : 2), Height - (IsHeightEvenNumber ? 3 : 2), DeadEndDownPattern))
 	{
 		NextX--;
 		while (Maze.IsValid(NextX, NextY) && Maze.IsClosed(NextX, NextY))
