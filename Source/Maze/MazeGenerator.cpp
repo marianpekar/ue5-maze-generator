@@ -93,9 +93,13 @@ void AMazeGenerator::GenerateMaze()
 		break;
 	}
 
-	if (NoDeadEnds)
+	if (NoDeadEndsInside)
 	{
 		RemoveDeadEndsInside();
+	}
+
+	if (NoDeadEndsOnEdges)
+	{
 		RemoveDeadEndsOnEdges();
 		RemoveDeadEndsAtCorners();
 	}

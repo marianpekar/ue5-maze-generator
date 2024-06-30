@@ -174,7 +174,10 @@ public:
 	EMazeGenerationAlgorithmType Algorithm = EMazeGenerationAlgorithmType::WithRecursion;
 
 	UPROPERTY(EditAnywhere)
-	bool NoDeadEnds = false;
+	bool NoDeadEndsInside = false;
+
+	UPROPERTY(EditAnywhere)
+	bool NoDeadEndsOnEdges = false;
 
 	UPROPERTY(EditAnywhere)
 	int32 StartX = 5;
